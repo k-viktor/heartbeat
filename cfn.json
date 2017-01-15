@@ -1,0 +1,76 @@
+{
+  "Resources": {
+    "HeartbeatLambdasRole": {
+	  "Type": "AWS::IAM::Role",
+	  "Properties": {
+	    "AssumeRolePolicyDocument": {
+	      "Version": "2012-10-17",
+          "Statement": [{
+	        "Effect": "Allow",
+	    	"Principal": {
+	    	  "Service": "lambda.amazonaws.com"
+	    	},
+	    	"Action": "sts:AssumeRole"
+	      }]
+	    },
+	    "Path": "/",
+	    "Policies": [ 
+	      {
+	        "PolicyName" : "Heartbeat-SESPolicy",
+	        "PolicyDocument": {
+	          "Version" : "2012-10-17",
+	          "Statement": [
+	            {
+	      	      "Sid": "Stmt1484465713428",
+	      		  "Action": "ses:*",
+	      		  "Effect": "Allow",
+	      		  "Resource": "*"
+	            }
+	          ]
+	        }
+	      },
+	      {
+		    "PolicyName" : "Heartbeat-SESPolicy",
+		    "PolicyDocument": {
+		      "Version" : "2012-10-17",
+		      "Statement": [
+		        {
+		          "Sid": "Stmt1484465713428",
+		          "Action": "ses:*",
+		      	  "Effect": "Allow",
+		      	  "Resource": "*"
+		        }
+		      ]
+		    }
+		  }
+	    ]
+	  }
+	},
+    "HeartBeatTable" : {
+      "Type" : "AWS::DynamoDB::Table",
+      "Properties" : {
+        "TableName" : "heartbeats",
+        "AttributeDefinitions" : [{
+              "AttributeName" : "user",
+              "AttributeType" : "S"
+            },{
+              "AttributeName" : "id",
+              "AttributeType" : "S"
+            }
+        ],
+        "KeySchema" : [{
+            "AttributeName" : "id",
+            "KeyType" : "HASH"
+          },{
+            "AttributeName" : "user",
+            "KeyType" : "RANGE"
+          }
+        ],
+        "ProvisionedThroughput" : {
+          "ReadCapacityUnits" : 1,
+          "WriteCapacityUnits" : 1
+        }       
+      }
+    }
+  }
+}
