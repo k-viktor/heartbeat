@@ -30,13 +30,13 @@
 	        }
 	      },
 	      {
-		    "PolicyName" : "Heartbeat-SESPolicy",
+		    "PolicyName" : "Heartbeat-DynamoPolicy",
 		    "PolicyDocument": {
 		      "Version" : "2012-10-17",
 		      "Statement": [
 		        {
-		          "Sid": "Stmt1484465713428",
-		          "Action": "ses:*",
+		          "Sid": "Stmt1484474870000",
+		          "Action": "dynamodb:*",
 		      	  "Effect": "Allow",
 		      	  "Resource": "*"
 		        }
