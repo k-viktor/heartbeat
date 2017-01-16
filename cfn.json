@@ -59,10 +59,10 @@
             }
         ],
         "KeySchema" : [{
-            "AttributeName" : "id",
+            "AttributeName" : "user",
             "KeyType" : "HASH"
           },{
-            "AttributeName" : "user",
+            "AttributeName" : "id",
             "KeyType" : "RANGE"
           }
         ],

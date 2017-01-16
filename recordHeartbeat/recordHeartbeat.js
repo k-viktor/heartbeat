@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
         Item: {
             "user":  event.user,
             "id": event.id,
-            "info":  event.info
+            "lastHeartbeat":  Date.now()
         }
     };
     
