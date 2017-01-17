@@ -97,7 +97,73 @@
             "Runtime": "nodejs4.3",
             "Timeout": "25"
           }
+    },
+    "HearbeatRestAPi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Body": {
+          "swagger": "2.0",
+          "info": {
+            "version": "1.0.0",
+            "title": "Heartbeat",
+            "description": "Heartbeat API for recording hearbeats",
+            "termsOfService": "TODO",
+            "contact": {
+              "name": "TODO"
+            },
+            "license": {
+              "name": "MIT"
+            }
+          },
+          "host": "TODO",
+          "basePath": "/api",
+          "schemes": [
+            "http"
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "paths": {
+            "/record_heartbeat": {
+              "post": {
+                "description": "Record a heartbeat",
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "Heartbeat was recorded.",
+                    "schema": {
+                      "type": "object",
+                      "items": {
+                        "$ref": "#/definitions/RecordHeartbeatResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "definitions": {
+            "RecordHeartbeatRespose": {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Description": "Heartbeat API",
+        "Name": "HeartbeatRestApi"
+      }
     }
   }
 }
-
