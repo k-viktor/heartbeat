@@ -1,51 +1,49 @@
 {
   "Resources": {
     "HeartbeatLambdasRole": {
-	  "Type": "AWS::IAM::Role",
-	  "Properties": {
-	    "AssumeRolePolicyDocument": {
-	      "Version": "2012-10-17",
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
           "Statement": [{
-	        "Effect": "Allow",
-	    	"Principal": {
-	    	  "Service": "lambda.amazonaws.com"
-	    	},
-	    	"Action": "sts:AssumeRole"
-	      }]
-	    },
-	    "Path": "/",
-	    "Policies": [ 
-	      {
-	        "PolicyName" : "Heartbeat-SESPolicy",
-	        "PolicyDocument": {
-	          "Version" : "2012-10-17",
-	          "Statement": [
-	            {
-	      	      "Sid": "Stmt1484465713428",
-	      		  "Action": "ses:*",
-	      		  "Effect": "Allow",
-	      		  "Resource": "*"
-	            }
-	          ]
-	        }
-	      },
-	      {
-		    "PolicyName" : "Heartbeat-DynamoPolicy",
-		    "PolicyDocument": {
-		      "Version" : "2012-10-17",
-		      "Statement": [
-		        {
-		          "Sid": "Stmt1484474870000",
-		          "Action": "dynamodb:*",
-		      	  "Effect": "Allow",
-		      	  "Resource": "*"
-		        }
-		      ]
-		    }
-		  }
-	    ]
-	  }
-	},
+            "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+          }]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName" : "Heartbeat-SESPolicy",
+            "PolicyDocument": {
+              "Version" : "2012-10-17",
+              "Statement": [{
+                "Sid": "Stmt1484465713428",
+                "Action": "ses:*",
+                "Effect": "Allow",
+                "Resource": "*"
+              }]
+            }
+          },
+          {
+            "PolicyName" : "Heartbeat-DynamoPolicy",
+            "PolicyDocument": {
+              "Version" : "2012-10-17",
+              "Statement": [
+                {
+                  "Sid": "Stmt1484474870000",
+                  "Action": "dynamodb:*",
+                  "Effect": "Allow",
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "HeartBeatTable" : {
       "Type" : "AWS::DynamoDB::Table",
       "Properties" : {
@@ -73,30 +71,30 @@
       }
     },
     "RecordHeartbeatLambda": {
-  	  "Type": "AWS::Lambda::Function",
-  	  "Properties": {
-  	    "Handler": "recordHeartbeat.handler",
-  	    "Role": { "Fn::GetAtt" : ["HeartbeatLambdasRole", "Arn"] },
-  	    "Code": {
-  	      "S3Bucket": "viktor-heartbeat",
-  	      "S3Key": "recordHeartbeat.zip"
-  	    },
-  	    "Runtime": "nodejs4.3",
-  	    "Timeout": "25"
-  	  }
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "recordHeartbeat.handler",
+        "Role": { "Fn::GetAtt" : ["HeartbeatLambdasRole", "Arn"] },
+        "Code": {
+          "S3Bucket": "viktor-heartbeat",
+          "S3Key": "recordHeartbeat.zip"
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": "25"
+      }
     },
     "CheckHeartbeatLambda": {
-          "Type": "AWS::Lambda::Function",
-          "Properties": {
-            "Handler": "checkHeartbeat.handler",
-            "Role": { "Fn::GetAtt" : ["HeartbeatLambdasRole", "Arn"] },
-            "Code": {
-              "S3Bucket": "viktor-heartbeat",
-              "S3Key": "checkHeartbeat.zip"
-            },
-            "Runtime": "nodejs4.3",
-            "Timeout": "25"
-          }
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "checkHeartbeat.handler",
+        "Role": { "Fn::GetAtt" : ["HeartbeatLambdasRole", "Arn"] },
+        "Code": {
+          "S3Bucket": "viktor-heartbeat",
+          "S3Key": "checkHeartbeat.zip"
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": "25"
+      }
     },
     "HearbeatRestAPi": {
       "Type": "AWS::ApiGateway::RestApi",
