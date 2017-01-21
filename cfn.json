@@ -44,6 +44,36 @@
         ]
       }
     },
+    "ApiGwRole" : {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [{
+            "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+          }]
+        },
+        "Policies": [ 
+          {
+            "PolicyName": "Heartbeat-LambdaPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": "lambda:InvokeFunction",
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "HeartBeatTable" : {
       "Type" : "AWS::DynamoDB::Table",
       "Properties" : {
@@ -139,6 +169,33 @@
                       "items": {
                         "$ref": "#/definitions/RecordHeartbeatResponse"
                       }
+                    }
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "type": "aws",
+                  "credentials": {"Fn::GetAtt" : ["ApiGwRole", "Arn"] },
+                  "httpMethod": "POST",
+                  "uri": {"Fn::Join" : [
+                      "",
+                      [
+                        "arn:aws:apigateway:",
+                        {"Ref": "AWS::Region"},
+                        ":lambda:path/2015-03-31/functions/",
+                        {"Fn::GetAtt": ["RecordHeartbeatLambda", "Arn"]},
+                        "/invocations"
+                      ]
+                    ]
+                  },
+                  "requestTemplates": {
+                    "application/json": "$input.json('$')"
+                  },
+                  "responses": {
+                    "default": {
+                      "responseTemplates": {
+                        "application/json": "$input.json('$.bodyJson')}"
+                      },
+                      "statusCode": "200"
                     }
                   }
                 }
