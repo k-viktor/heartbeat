@@ -193,7 +193,7 @@
                   "responses": {
                     "default": {
                       "responseTemplates": {
-                        "application/json": "$input.json('$.bodyJson')}"
+                        "application/json": "$input.json('$')"
                       },
                       "statusCode": "200"
                     }

@@ -22,10 +22,12 @@ exports.handler = (event, context, callback) => {
            var errorMsg = 'Unable to record heardbeat' + JSON.stringify(event);
            console.error(errorMsg);
            console.error(JSON.stringify(err))
-           callback(errorMsg);
+           var errorResponse = {errorMsg: errorMsg}
+           callback(errorResponse);
        } else {
            console.log("Succeeded:", JSON.stringify(event));
-           callback(null, 'OK');
+           var response = {result: "OK"}
+           callback(null, response);
        }
     });
 };
